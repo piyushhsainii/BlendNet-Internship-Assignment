@@ -1,4 +1,4 @@
-import { MoveUpRight } from "lucide-react"
+import { Delete, MoveUpRight, Trash } from "lucide-react"
 import { Button } from "./ui/button"
 import {
     Tooltip,
@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Link } from "react-router-dom"
 import { Navbar } from "./Navbar"
+import { useEffect, useState } from "react"
 
 export default function WatchList() {
 
@@ -15,15 +16,22 @@ export default function WatchList() {
         name: String,
         symbol: String
     }
+    const [Refresh, setRefresh] = useState(false)
+    const RemoveStock = (name: String) => {
+        const getStocks: Stock[] = JSON.parse(localStorage.getItem("name") || "[]")
+        const filteredStocks = getStocks.filter((stocks) => stocks.name !== name)
+        localStorage.removeItem("name")
+        localStorage.setItem("name", JSON.stringify(filteredStocks))
+        setRefresh((value) => !value)
+    }
 
-    const stockArray = [
-        { name: "Apple Inc.", symbol: "AAPL" },
-        { name: "Microsoft Corp", symbol: "MSFT" },
-        { name: "Tesla, Inc.", symbol: "TSLA" },
-        { name: "Nvida Corporation", symbol: "NVDA" },
-        { name: "Alphabet Inc.", symbol: "GOOGL" },
-        { name: "International Business Machines Cor..", symbol: "IBM" },
-    ]
+    const MyStocks: Stock[] = JSON.parse(localStorage.getItem("name") || "[]")
+
+    useEffect(() => {
+
+
+    }, [Refresh])
+
 
     return (
         <>
@@ -44,7 +52,7 @@ export default function WatchList() {
             </section>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {
-                    stockArray.map((stock: Stock) => (
+                    MyStocks.length > 0 ? MyStocks.map((stock: Stock) => (
                         <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-md dark:border-gray-800 dark:bg-gray-950">
                             <div className="flex h-[80px] items-center justify-between">
                                 <div>
@@ -55,7 +63,10 @@ export default function WatchList() {
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger>
-                                                <Link to={`/stock/${stock.name}`} >  <MoveUpRight className="h-4 w-4" /> </Link>
+                                                <div className="flex items-center gap-3">
+                                                    <Link to={`/stock/${stock.symbol}`} >  <MoveUpRight className="h-4 w-4" /> </Link>
+                                                    <Trash onClick={() => RemoveStock(stock.name)} width={16} />
+                                                </div>
                                             </TooltipTrigger>
                                             <TooltipContent>
                                                 <p>Watch Stock Price</p>
@@ -66,6 +77,14 @@ export default function WatchList() {
                             </div>
                         </div>
                     ))
+                        :
+                        <div className=" flex flex-col justify-center items-center w-screen ">
+                            <h3 className="text-2xl font-semibold "> Your WatchList is empty! </h3>
+                            <h3 className="text-md text-gray-500 dark:text-gray-400">
+                                Add Stocks in your
+                                <Link to={"/stock"}>watchlist!</Link>
+                            </h3>
+                        </div>
                 }
             </div>
         </>

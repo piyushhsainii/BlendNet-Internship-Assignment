@@ -19,7 +19,7 @@ const StockInfo = () => {
     const { id } = useParams()
 
     const fetchStockData = async () => {
-        const { data } = await axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo")
+        const { data } = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${id}&interval=5min&apikey=Y3BD6C5VK1MSKC9`)
         setStockData(data['Time Series (5min)'])
         setMetaData(data['Meta Data'])
     }
@@ -72,7 +72,7 @@ const StockInfo = () => {
                             {
                                 StockData &&
                                 Object.keys(StockData).map((key) => (
-                                    <Table>
+                                    <Table key={key}>
                                         <TableHeader>
                                             <TableRow >
                                                 <TableHead className="font-semibold text-black">Timestamp</TableHead>

@@ -1,9 +1,11 @@
 import { useAuth } from "@clerk/clerk-react"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Navbar } from "./Navbar"
 import { useEffect } from "react"
 import { Loader } from "./loader"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+import { useToast } from "./ui/use-toast"
 
 export default function Home() {
 
@@ -11,6 +13,7 @@ export default function Home() {
         name: String,
         symbol: String
     }
+    const { toast } = useToast()
     const stockArray = [
         { name: "Apple Inc.", symbol: "AAPL" },
         { name: "Microsoft Corp", symbol: "MSFT" },
@@ -21,6 +24,19 @@ export default function Home() {
     ]
     const { userId, isLoaded } = useAuth()
     const navigate = useNavigate()
+
+    const addToWatchList = (name: String, symbol: String) => {
+
+        if (localStorage.getItem("name")) {
+            let existingWatchList = JSON.parse(localStorage.getItem("name") || "")
+            localStorage.setItem("name", JSON.stringify([{ name: name, symbol: symbol }, ...existingWatchList]))
+        } else {
+            localStorage.setItem("name", JSON.stringify([{ name: name, symbol: symbol }]))
+        }
+        toast({
+            description: "Added to Watchlist"
+        })
+    }
 
     useEffect(() => {
         if (isLoaded && !userId) {
@@ -51,7 +67,16 @@ export default function Home() {
                                                 <p className="text-sm text-gray-500 dark:text-gray-400">{stock.symbol}</p>
                                             </div>
                                             <Button className="h-8 w-8" size="icon" variant="outline">
-                                                <PlusIcon className="h-4 w-4" />
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger>
+                                                            <div onClick={() => addToWatchList(stock.name, stock.symbol)}><PlusIcon className="h-4 w-4" /> </div>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>Add to Watchlist</p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
                                             </Button>
                                         </div>
                                     </div>
