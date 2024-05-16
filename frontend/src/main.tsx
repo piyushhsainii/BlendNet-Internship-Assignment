@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { ClerkProvider } from '@clerk/clerk-react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import RootLayout from './components/RootLayout.tsx'
 import Home from './components/Home.tsx'

@@ -1,4 +1,4 @@
-import { Delete, MoveUpRight, Trash } from "lucide-react"
+import { MoveUpRight, Trash } from "lucide-react"
 import { Button } from "./ui/button"
 import {
     Tooltip,

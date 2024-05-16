@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/clerk-react"
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Navbar } from "./Navbar"
 import { useEffect } from "react"
