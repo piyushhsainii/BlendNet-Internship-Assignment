@@ -29,6 +29,8 @@ export default function Home() {
 
         if (localStorage.getItem("name")) {
             let existingWatchList = JSON.parse(localStorage.getItem("name") || "")
+            const check = existingWatchList.filter((stock: any) => stock.name === name)
+            if (check.length > 0) return;
             localStorage.setItem("name", JSON.stringify([{ name: name, symbol: symbol }, ...existingWatchList]))
         } else {
             localStorage.setItem("name", JSON.stringify([{ name: name, symbol: symbol }]))
@@ -37,6 +39,8 @@ export default function Home() {
             description: "Added to Watchlist"
         })
     }
+
+    const checkExistingStock = JSON.parse(localStorage.getItem("name") || "")
 
     useEffect(() => {
         if (isLoaded && !userId) {
@@ -66,18 +70,21 @@ export default function Home() {
                                                 <h3 className="text-lg font-semibold"> {stock.name} </h3>
                                                 <p className="text-sm text-gray-500 dark:text-gray-400">{stock.symbol}</p>
                                             </div>
-                                            <Button className="h-8 w-8" size="icon" variant="outline">
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger>
-                                                            <div onClick={() => addToWatchList(stock.name, stock.symbol)}><PlusIcon className="h-4 w-4" /> </div>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>Add to Watchlist</p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            </Button>
+                                            {
+                                                checkExistingStock.filter((stock: Stock) => stock.name === stock.name) ?
+                                                    <Button className="h-8 w-8" size="icon" variant="outline">
+                                                        <TooltipProvider>
+                                                            <Tooltip>
+                                                                <TooltipTrigger>
+                                                                    <div onClick={() => addToWatchList(stock.name, stock.symbol)}><PlusIcon className="h-4 w-4" /> </div>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>
+                                                                    <p>Add to Watchlist</p>
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </TooltipProvider>
+                                                    </Button> : null
+                                            }
                                         </div>
                                     </div>
                                 ))

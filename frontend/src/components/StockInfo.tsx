@@ -3,6 +3,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Navbar } from "./Navbar"
+import { Loader } from "./loader"
 
 const StockInfo = () => {
 
@@ -14,12 +15,12 @@ const StockInfo = () => {
         "5. Output Size": String,
         "6. Time Zone": String,
     }
-    const [MetaData, setMetaData] = useState<MetaData>()
-    const [StockData, setStockData] = useState<any>()
+    const [MetaData, setMetaData] = useState<MetaData | null>()
+    const [StockData, setStockData] = useState<any | null>()
     const { id } = useParams()
 
     const fetchStockData = async () => {
-        const { data } = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${id}&interval=5min&apikey=Y3BD6C5VK1MSKC9`)
+        const { data } = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${id}&interval=5min&apikey=${import.meta.env.API_KEY}`)
         setStockData(data['Time Series (5min)'])
         setMetaData(data['Meta Data'])
     }
@@ -41,6 +42,10 @@ const StockInfo = () => {
     return (
         <>
             <Navbar />
+            {
+                MetaData === null || StockData === null &&
+                <Loader />
+            }
             {
                 MetaData &&
                 <section className="w-full py-12 md:py-20 lg:py-28">
@@ -64,6 +69,7 @@ const StockInfo = () => {
                 </p>
 
             </div>
+
             {
                 StockData &&
                 <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
