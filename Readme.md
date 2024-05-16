@@ -1,9 +1,9 @@
-Blendnet Internship Assignment -- 
+**Blendnet Internship Assignment** -- 
 
-Frontend - REACT
-UI Library -Shadcn
+- Frontend - REACT
+- UI Library -Shadcn
 
-Instructions to setup the project locally - 
+* Instructions to setup the project locally - 
 
 1. clone the repository
 2. install the neccesary packages
