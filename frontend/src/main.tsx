@@ -10,7 +10,7 @@ import DashboardPage from './components/Dashboard.tsx'
 import WatchList from './components/WatchList.tsx'
 import StockInfo from './components/StockInfo.tsx'
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key")

@@ -7,7 +7,7 @@
 
 1. clone the repository
 2. install the neccesary packages
-3. Get Clerk Publishable key from clerk dashboard and set it in the .env file by the name of VITE_CLERK_PUBLISHABLE_KEY.
+3. Get Clerk Publishable key from clerk dashboard and set it in the .env file by the name of VITE_CLERK_PUBLISHABLE.
 4. Get AlphaVantage api key from their documentation and set it in the .env file by the name of API_KEY.
 5. run command `npm run dev` to start the project locally.
 
