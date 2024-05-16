@@ -28,7 +28,7 @@ export default function Home() {
     const addToWatchList = (name: String, symbol: String) => {
 
         if (localStorage.getItem("name")) {
-            let existingWatchList = JSON.parse(localStorage.getItem("name") || "")
+            let existingWatchList = JSON.parse(localStorage.getItem("name")!)
             const check = existingWatchList.filter((stock: any) => stock.name === name)
             if (check.length > 0) return;
             localStorage.setItem("name", JSON.stringify([{ name: name, symbol: symbol }, ...existingWatchList]))
@@ -40,7 +40,7 @@ export default function Home() {
         })
     }
 
-    const checkExistingStock = JSON.parse(localStorage.getItem("name") || "")
+    const checkExistingStock: [] = JSON.parse(localStorage.getItem("name") || "[]")
 
     useEffect(() => {
         if (isLoaded && !userId) {
